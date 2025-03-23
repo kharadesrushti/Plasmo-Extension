@@ -10,6 +10,8 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@clerk/chrome-extension": "^2.2.15",
+    "@clerk/clerk-react": "^5.25.2",
     "plasmo": "0.90.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -21,11 +23,22 @@
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "prettier": "3.2.4",
+    "tailwindcss": "^4.0.14",
     "typescript": "5.3.3"
   },
   "manifest": {
-    "host_permissions": [
-      "https://*/*"
-    ]
-  }
+  "key": "$CRX_PUBLIC_KEY",
+  "permissions": ["cookies", "storage", "activeTab", "scripting"],
+  "host_permissions": ["https://*.linkedin.com/*"],
+  "background": {
+    "service_worker": "background.ts"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.linkedin.com/*"],
+      "js": ["/src/content.tsx"],
+      "run_at": "document_idle"
+    }
+  ]
+}
 }
