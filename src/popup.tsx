@@ -10,11 +10,15 @@ import {
   import "~style.css"
   
   const PUBLISHABLE_KEY = process.env.PLASMO_PUBLIC_CLERK_PUBLISHABLE_KEY
+  const SYNC_HOST = process.env.PLASMO_PUBLIC_CLERK_SYNC_HOST
   const EXTENSION_URL = chrome.runtime.getURL(".")
   
-  if (!PUBLISHABLE_KEY) {
-    throw new Error('Please add the PLASMO_PUBLIC_CLERK_PUBLISHABLE_KEY to the .env.development file')
+  if (!PUBLISHABLE_KEY || !SYNC_HOST) {
+    throw new Error(
+      'Please add the PLASMO_PUBLIC_CLERK_PUBLISHABLE_KEY and PLASMO_PUBLIC_CLERK_SYNC_HOST to the .env.development file',
+    )
   }
+  
   
   function IndexPopup() {
     return (
@@ -23,6 +27,7 @@ import {
         afterSignOutUrl={`${EXTENSION_URL}/popup.html`}
         signInFallbackRedirectUrl={`${EXTENSION_URL}/popup.html`}
         signUpFallbackRedirectUrl={`${EXTENSION_URL}/popup.html`}
+        syncHost={SYNC_HOST}
       >
 <div style={{
     width:"800px",
